@@ -2713,6 +2713,11 @@ msgid "No salesperson"
 msgstr ""
 
 #. module: crm
+#: selection:crm.lead,priority:0
+msgid "None"
+msgstr "Aucun"
+
+#. module: crm
 #: selection:crm.lead,priority:0 selection:crm.opportunity.report,priority:0
 msgid "Normal"
 msgstr ""
@@ -3119,6 +3124,11 @@ msgid ""
 "Please select more than one element (lead or opportunity) from the list "
 "view."
 msgstr ""
+
+#. module: crm
+#: selection:crm.lead,priority:0
+msgid "Poor"
+msgstr "Très bas"
 
 #. module: crm
 #: model:ir.model.fields,help:crm.field_crm_team_alias_contact
