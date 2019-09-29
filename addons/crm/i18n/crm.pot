@@ -1519,6 +1519,11 @@ msgid "No salesperson"
 msgstr ""
 
 #. module: crm
+#: selection:crm.lead,priority:0
+msgid "None"
+msgstr ""
+
+#. module: crm
 #: model:crm.lost.reason,name:crm.lost_reason_3
 msgid "Not enough stock"
 msgstr ""
@@ -1797,6 +1802,11 @@ msgstr ""
 #: code:addons/crm/models/crm_lead.py:660
 #, python-format
 msgid "Please select more than one element (lead or opportunity) from the list view."
+msgstr ""
+
+#. module: crm
+#: selection:crm.lead,priority:0
+msgid "Poor"
 msgstr ""
 
 #. module: crm
