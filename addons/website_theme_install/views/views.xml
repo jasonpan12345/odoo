@@ -103,13 +103,13 @@ action = {
     </record>
 
     <!-- Add link to theme install in default customize modal -->
-    <template id="customize_modal" inherit_id="website.theme_customize" priority="99">
-        <xpath expr="//div" position="replace">
-            <div>
-                Please <a href="/web#action=website_theme_install.theme_install_kanban_action">install a theme</a> to customize your website.
-            </div>
-        </xpath>
-    </template>
+    <!--    <template id="customize_modal" inherit_id="website.theme_customize" priority="99">-->
+    <!--        <xpath expr="//div" position="replace">-->
+    <!--            <div>-->
+    <!--                Please <a href="/web#action=website_theme_install.theme_install_kanban_action">install a theme</a> to customize your website.-->
+    <!--            </div>-->
+    <!--        </xpath>-->
+    <!--    </template>-->
 
     <record id="view_website_form_view_themes_modal" model="ir.ui.view">
         <field name="name">website.form</field>
