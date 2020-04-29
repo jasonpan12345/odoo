@@ -203,7 +203,11 @@ class CustomerPortal(CustomerPortal):
             return {'error': _('Signature is missing.')}
 
         if not order_sudo.has_to_be_paid():
-            order_sudo.action_confirm()
+            try:
+                order_sudo.action_confirm()
+            except Exception as e:
+                error = _("Internal error occur : %s") % e.name
+                return {'error': error}
 
         order_sudo.signature = signature
         order_sudo.signed_by = partner_name
