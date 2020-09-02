@@ -265,7 +265,7 @@ var AbstractField = Widget.extend({
      */
     isFocusable: function () {
         var $focusable = this.getFocusableElement();
-        return $focusable.length && $focusable.is(':visible');
+        return $focusable && $focusable.length && $focusable.is(':visible');
     },
     /**
      * this method is used to determine if the field value is set to a meaningful
