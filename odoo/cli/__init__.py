@@ -13,3 +13,4 @@ from . import server
 from . import shell
 from . import start
 from . import db
+from . import i18n
