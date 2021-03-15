@@ -16,13 +16,16 @@ class Db(Command):
             description=self.__doc__
         )
         parser.add_option("-d", "--database", dest="db_name", default=None,
-                          help="Specify the database name (default to project's directory name")
+                          help="Specify the database name (default to project's directory name)")
+        parser.add_option("--from_database", dest="db_name_from", default=None,
+                          help="Specify the database name to clone from.")
         parser.add_option('--restore_db_file', help="Path of file to restore")
         parser.add_option('--restore_image', help="Image name from ERPLibre/image_db")
         parser.add_option('--master_password', help="Specify the master password if need it.")
 
         # group = optparse.OptionGroup(parser, "Command")
         parser.add_option("--drop", action="store_true", help="Command drop database.")
+        parser.add_option("--clone", action="store_true", help="Command clone database.")
         parser.add_option("--restore", action="store_true", help="Command restore database.")
         parser.add_option("--list", action="store_true", help="Command list database.")
         parser.add_option("--list_incompatible_db", action="store_true", help="Command list database incompatible.")
@@ -39,6 +42,12 @@ class Db(Command):
 
         die(bool(opt.restore) and not bool(opt.db_name),
             "Missing argument --database of option --restore.")
+
+        die(bool(opt.clone) and not bool(opt.db_name),
+            "Missing argument --database of option --clone.")
+
+        die(bool(opt.clone) and not bool(opt.db_name_from),
+            "Missing argument --from_database of option --clone.")
 
         die(bool(opt.drop) and not bool(opt.db_name),
             "Missing argument --database of option --drop.")
@@ -65,6 +74,8 @@ class Db(Command):
                     db.restore_db(opt.db_name, file_path, False)
                 elif opt.restore_db_file:
                     db.restore_db(opt.db_name, opt.restore_db_file, False)
+            elif opt.clone:
+                db.exp_duplicate_database(opt.db_name_from, opt.db_name)
             elif opt.version:
                 print(db.exp_server_version())
             else:
