@@ -1,6 +1,7 @@
 import optparse
 import os
 import sys
+import datetime
 
 import odoo
 from . import Command
@@ -32,10 +33,14 @@ class Db(Command):
         parser.add_option("--user_country_code", default="ca", help="Country code, search country_utils.py.")
 
         # group = optparse.OptionGroup(parser, "Command")
+        parser.add_option("--backup", action="store_true", help="Command backup database to export in .zip file. "
+                                                                "Need argument --restore_image or --restore_db_file.")
         parser.add_option("--drop", action="store_true", help="Command drop database.")
         parser.add_option("--create", action="store_true", help="Create database.")
-        parser.add_option("--clone", action="store_true", help="Command clone database.")
-        parser.add_option("--restore", action="store_true", help="Command restore database.")
+        parser.add_option("--clone", action="store_true", help="Command clone database. "
+                                                               "Need argument --db_name_from")
+        parser.add_option("--restore", action="store_true", help="Command restore database. "
+                                                                 "Need argument --restore_image or --restore_db_file.")
         parser.add_option("--list", action="store_true", help="Command list database.")
         parser.add_option("--list_incompatible_db", action="store_true", help="Command list database incompatible.")
         parser.add_option("--version", action="store_true", help="Command show odoo version.")
@@ -51,6 +56,12 @@ class Db(Command):
 
         die(bool(opt.restore) and not bool(opt.db_name),
             "Missing argument --database of option --restore.")
+
+        die(bool(opt.backup) and not (bool(opt.restore_db_file) or bool(opt.restore_image)),
+            "Missing argument --restore_db_file or --restore_image of option --backup.")
+
+        die(bool(opt.backup) and not bool(opt.db_name),
+            "Missing argument --database of option --backup.")
 
         die(bool(opt.create) and not bool(opt.db_name),
             "Missing argument --database of option --create.")
@@ -82,13 +93,23 @@ class Db(Command):
             elif opt.create:
                 db.exp_create_database(opt.db_name, opt.demo, opt.user_lang, user_password=opt.user_password,
                                        login=opt.user_login, country_code=opt.user_country_code, phone=opt.user_phone)
+            elif opt.backup:
+                if opt.restore_image:
+                    file_name = opt.restore_image if opt.restore_image.endswith(".zip") else f"{opt.restore_image}.zip"
+                    file_path = os.path.join(".", "image_db", file_name)
+                elif opt.restore_db_file:
+                    file_path = opt.restore_db_file
+                with open(file_path, "wb") as destiny:
+                    # Generate new backup
+                    db.dump_db(opt.db_name, destiny, backup_format="zip")
+                    print(f"Generate {destiny.name}")
             elif opt.restore:
                 if opt.restore_image:
                     file_name = opt.restore_image if opt.restore_image.endswith(".zip") else f"{opt.restore_image}.zip"
                     file_path = os.path.join(".", "image_db", file_name)
-                    db.restore_db(opt.db_name, file_path, False)
                 elif opt.restore_db_file:
-                    db.restore_db(opt.db_name, opt.restore_db_file, False)
+                    file_path = opt.restore_db_file
+                db.restore_db(opt.db_name, file_path, False)
             elif opt.clone:
                 db.exp_duplicate_database(opt.db_name_from, opt.db_name)
             elif opt.version:
