@@ -23,8 +23,17 @@ class Db(Command):
         parser.add_option('--restore_image', help="Image name from ERPLibre/image_db")
         parser.add_option('--master_password', help="Specify the master password if need it.")
 
+        # create options
+        parser.add_option("--demo", action="store_true", help="Add demo data in create database.")
+        parser.add_option("--user_lang", default="fr_CA", help="Language like en_US.")
+        parser.add_option("--user_password", default="admin", help="User password in create database.")
+        parser.add_option("--user_login", default="admin", help="User login in create database.")
+        parser.add_option("--user_phone", help="User phone in create database.")
+        parser.add_option("--user_country_code", default="ca", help="Country code, search country_utils.py.")
+
         # group = optparse.OptionGroup(parser, "Command")
         parser.add_option("--drop", action="store_true", help="Command drop database.")
+        parser.add_option("--create", action="store_true", help="Create database.")
         parser.add_option("--clone", action="store_true", help="Command clone database.")
         parser.add_option("--restore", action="store_true", help="Command restore database.")
         parser.add_option("--list", action="store_true", help="Command list database.")
@@ -33,15 +42,18 @@ class Db(Command):
 
         opt, args = parser.parse_args(cmdargs)
 
-        die(bool(opt.drop) and bool(opt.restore) and bool(opt.list) and bool(opt.version) and bool(
-            opt.list_incompatible_db),
-            "Can only run one command, --drop, --list, --version, --list_incompatible_db or --restore.")
+        die((bool(opt.drop), bool(opt.restore), bool(opt.list), bool(opt.version),
+             bool(opt.list_incompatible_db), bool(opt.create)).count(True) > 1,
+            "Can only run one command, --create, --drop, --list, --version, --list_incompatible_db or --restore.")
 
         die(bool(opt.restore) and not (bool(opt.restore_db_file) or bool(opt.restore_image)),
             "Missing argument --restore_db_file or --restore_image of option --restore.")
 
         die(bool(opt.restore) and not bool(opt.db_name),
             "Missing argument --database of option --restore.")
+
+        die(bool(opt.create) and not bool(opt.db_name),
+            "Missing argument --database of option --create.")
 
         die(bool(opt.clone) and not bool(opt.db_name),
             "Missing argument --database of option --clone.")
@@ -67,6 +79,9 @@ class Db(Command):
             elif opt.drop:
                 master_password = opt.master_password if opt.master_password else 'admin'
                 dispatch_rpc('db', 'drop', [master_password, opt.db_name])
+            elif opt.create:
+                db.exp_create_database(opt.db_name, opt.demo, opt.user_lang, user_password=opt.user_password,
+                                       login=opt.user_login, country_code=opt.user_country_code, phone=opt.user_phone)
             elif opt.restore:
                 if opt.restore_image:
                     file_name = opt.restore_image if opt.restore_image.endswith(".zip") else f"{opt.restore_image}.zip"
