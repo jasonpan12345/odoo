@@ -46,6 +46,7 @@
 <template id="assets_frontend" inherit_id="web.assets_frontend" name="Website Assets">
     <xpath expr="//link[last()]" position="after">
         <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/website.scss"/>
+        <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/website.erplibre.scss"/>
         <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/website.ui.scss"/>
         <link rel="stylesheet" type="text/scss" href="/website/static/src/scss/website.zoomodoo.scss"/>
     </xpath>
@@ -258,7 +259,7 @@
     <!-- Page options -->
     <xpath expr="//div[@id='wrapwrap']" position="before">
         <t groups="website.group_website_publisher">
-            <t t-foreach="['header_overlay', 'header_color']" t-as="optionName">
+            <t t-foreach="['header_overlay', 'header_color', 'header_height']" t-as="optionName">
                 <input t-if="optionName in main_object" type="hidden" class="o_page_option_data" t-att-name="optionName" t-att-value="main_object[optionName]"/>
             </t>
         </t>
@@ -268,6 +269,9 @@
     </xpath>
     <xpath expr="//header" position="attributes">
         <attribute name="t-attf-class" add="#{main_object.header_color if 'header_color' in main_object else ''}" separator=" "/>
+    </xpath>
+    <xpath expr="//nav" position="attributes">
+        <attribute name="t-attf-class" add="#{main_object.header_height + ' navbar navbar-expand-md navbar-light bg-light' if 'header_height' in main_object and main_object.header_height is not False else 'navbar navbar-expand-md navbar-light bg-light'}" separator=" "/>
     </xpath>
 </template>
 

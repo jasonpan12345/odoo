@@ -1469,4 +1469,31 @@ options.registry.topMenuColor = options.registry.colorpicker.extend({
         });
     },
 });
+
+options.registry.topMenuHeight = options.Class.extend({
+    // Add for ERPLibre
+    /**
+     * @override
+     */
+    start: function () {
+        let self = this;
+        let def = this._super.apply(this, arguments);
+        this.$target.on('snippet-option-change', function () {
+            self.onFocus();
+        });
+        return def;
+    },
+    /**
+     * @override
+     */
+    onFocus: function () {
+        let bgs = this.$target.attr('class').match(/nav-height-(\w)+/g);
+        // Get default value if no class
+        let value = bgs !== undefined && Array.isArray(bgs) && bgs.length ? bgs[0] : '';
+        this.trigger_up('action_demand', {
+            actionName: 'toggle_page_option',
+            params: [{name: 'header_height', value: value}]
+        });
+    },
+});
 });
