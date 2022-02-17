@@ -258,7 +258,7 @@
     <!-- Page options -->
     <xpath expr="//div[@id='wrapwrap']" position="before">
         <t groups="website.group_website_publisher">
-            <t t-foreach="['header_overlay', 'header_color']" t-as="optionName">
+            <t t-foreach="['header_overlay', 'header_color', 'header_height']" t-as="optionName">
                 <input t-if="optionName in main_object" type="hidden" class="o_page_option_data" t-att-name="optionName" t-att-value="main_object[optionName]"/>
             </t>
         </t>
@@ -268,6 +268,9 @@
     </xpath>
     <xpath expr="//header" position="attributes">
         <attribute name="t-attf-class" add="#{main_object.header_color if 'header_color' in main_object else ''}" separator=" "/>
+    </xpath>
+    <xpath expr="//navbar" position="attributes">
+        <attribute name="t-attf-class" add="#{'o_header_height' if 'header_height' in main_object and main_object.header_height else ''}" separator=" "/>
     </xpath>
 </template>
 

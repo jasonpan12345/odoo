@@ -684,6 +684,11 @@ var ContentMenu = websiteNavbarData.WebsiteNavbarActionWidget.extend({
             $('#wrapwrap > header').removeClass(this.value)
                                    .addClass(value);
         },
+        header_height: function (value) {
+            $('#navbar').removeClass(this.value)
+                                   .addClass(value);
+        }
+
     },
 
     /**
