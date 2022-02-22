@@ -684,9 +684,10 @@ var ContentMenu = websiteNavbarData.WebsiteNavbarActionWidget.extend({
             $('#wrapwrap > header').removeClass(this.value)
                                    .addClass(value);
         },
+        // Add for ERPLibre
         header_height: function (value) {
-            $('#navbar').removeClass(this.value)
-                                   .addClass(value);
+            $('#navbar').removeClass(this.value).addClass(value);
+            $('.navbar-brand > span > img').removeClass(this.value).addClass(value);
         }
 
     },

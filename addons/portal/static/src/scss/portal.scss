@@ -55,7 +55,7 @@ header {
 
             img {
                 width: auto;
-                height: $-navbar-height;
+                height: var(--nav-height);
                 max-width: none;
             }
         }

@@ -1470,71 +1470,29 @@ options.registry.topMenuColor = options.registry.colorpicker.extend({
     },
 });
 
-// test
 options.registry.topMenuHeight = options.Class.extend({
+    // Add for ERPLibre
     /**
      * @override
      */
     start: function () {
-        var self = this;
-        var def = this._super.apply(this, arguments);
+        let self = this;
+        let def = this._super.apply(this, arguments);
         this.$target.on('snippet-option-change', function () {
-            console.log("something");
-            self._onHeightButtonClick();
+            self.onFocus();
         });
-
-        /*
-        this.trigger_up('action_demand', {
-            actionName: 'toggle_page_option',
-            params: [{name: 'header_height'}],
-            onSuccess: function () {
-                self.trigger_up('action_demand', {
-                    actionName: 'toggle_page_option',
-                    params: [{name: 'header_height', value: height}],
-                });
-            },
-        });*/
         return def;
     },
     /**
      * @override
      */
     onFocus: function () {
-        console.log("onFocus");
-
-
-    },
-
-    //--------------------------------------------------------------------------
-    // Handlers
-    //--------------------------------------------------------------------------
-
-    /**
-     * @override
-     */
-    _onHeightButtonClick: function () {
-        console.log("something2");
-        //this._super.apply(this, arguments);
-        var bgs = this.$target.attr('class').match(/height-(\w)+/g);
-        alert(bgs);
-        //var allowedBgs = this.classes.split(' ');
-        console.log("something2.1");
-        //var height = _.intersection(bgs, allowedBgs).join(' ');
-        console.log("something2.2");
+        let bgs = this.$target.attr('class').match(/nav-height-(\w)+/g);
+        // Get default value if no class
+        let value = bgs !== undefined && Array.isArray(bgs) && bgs.length ? bgs[0] : '';
         this.trigger_up('action_demand', {
             actionName: 'toggle_page_option',
-            params: [{name: 'header_height', value: 'height-tallest'}]
-        });
-    },
-    /**
-     * @override
-     */
-    _onHeightResetButtonClick: function () {
-        this._super.apply(this, arguments);
-        alert("something3");
-        this.trigger_up('ready_to_save', {
-            actionName: 'on_save',
-            params: [{name: 'header_height', value: ''}],
+            params: [{name: 'header_height', value: value}]
         });
     },
 });

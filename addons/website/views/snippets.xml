@@ -1349,5 +1349,26 @@
         </div>
     </div>
 
+    <!-- Add for ERPLibre - Navbar height options -->
+    <div data-js="topMenuHeight" data-selector=".navbar"
+         data-no-check="true">
+        <div class="dropdown-submenu">
+            <a tabindex="0" href="#" class="dropdown-item">
+                <i class="fa fa-arrows"/>Height
+            </a>
+            <div class="dropdown-menu" role="menu">
+                <a href="#" class="dropdown-item" data-select-class="">Default height</a>
+                <div class="dropdown-divider"/>
+                <a href="#" class="dropdown-item" data-select-class="nav-height-thinnest">30px</a>
+                <a href="#" class="dropdown-item" data-select-class="nav-height-thin">40px</a>
+                <a href="#" class="dropdown-item" data-select-class="nav-height-shortest">60px</a>
+                <a href="#" class="dropdown-item" data-select-class="nav-height-short">70px</a>
+                <a href="#" class="dropdown-item" data-select-class="nav-height-medium">80px</a>
+                <a href="#" class="dropdown-item" data-select-class="nav-height-tall">90px</a>
+                <a href="#" class="dropdown-item" data-select-class="nav-height-tallest">100px</a>
+            </div>
+        </div>
+    </div>
+
 </template>
 </odoo>
